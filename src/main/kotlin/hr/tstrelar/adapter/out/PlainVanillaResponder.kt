@@ -9,15 +9,17 @@ import hr.tstrelar.domain.Message
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class OpenAiTurbo(private val mapper: OpenAiChatMessageMapper) : CompleteChatPort {
-    private val model35Turbo = ModelId("gpt-3.5-turbo")
-    private val openAi = OpenAI("")
+class PlainVanillaResponder(
+    private val mapper: OpenAiChatMessageMapper,
+    private val openAi: OpenAI,
+    private val model: ModelId
+) : CompleteChatPort {
     @OptIn(BetaOpenAI::class)
     override fun completeChat(messages: List<Message>): Flow<String> {
         val preparedMessages = messages.map {
             mapper.toOpenAiChatMessage(it)
         }
-        val request = ChatCompletionRequest(model35Turbo, preparedMessages)
+        val request = ChatCompletionRequest(model, preparedMessages)
         val completion = openAi.chatCompletions(request)
         return completion.map {
             it.choices.first().delta?.content ?: ""
