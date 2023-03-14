@@ -24,12 +24,14 @@ class OpenAiChatMessageMapper {
     fun toOpenAiRole(role: Role) = when(role) {
         Role.USER -> ChatRole.User
         Role.ASSISTANT -> ChatRole.Assistant
+        Role.SYSTEM -> ChatRole.System
     }
 
     @OptIn(BetaOpenAI::class)
     fun toAppRole(role: ChatRole) = when(role) {
         ChatRole.User -> Role.USER
         ChatRole.Assistant -> Role.ASSISTANT
-        else -> throw NotImplementedError("Currently only \"User\" and \"Assistant\" roles are supported")
+        ChatRole.System -> Role.SYSTEM
+        else -> throw NotImplementedError("Currently only \"User\", \"Assistant\" and \"System\" roles are supported")
     }
 }

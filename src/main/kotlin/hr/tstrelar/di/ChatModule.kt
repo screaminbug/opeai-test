@@ -2,7 +2,7 @@ package hr.tstrelar.di
 
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
-import hr.tstrelar.adapter.out.JokeResponder
+import hr.tstrelar.adapter.out.JokeResponderV2
 import hr.tstrelar.adapter.out.MessageRepository
 import hr.tstrelar.adapter.out.OpenAiChatMessageMapper
 import hr.tstrelar.apiKey
@@ -20,7 +20,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val chatModule = module {
-    singleOf(::JokeResponder) { bind<CompleteChatPort>() }
+    singleOf(::JokeResponderV2) { bind<CompleteChatPort>() }
 //    singleOf(::OpenAiTurbo) { bind<CompleteChatPort>() }
     singleOf(::MessageRepository) {
         bind<AddMessagePort>()
